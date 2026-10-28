@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<flowgorithm fileversion="2.11">
+  <attributes>
+    <attribute name="name" value="Долоо хоногийн цалингийн тооцоо" />
+    <attribute name="authors" value="Оюутны бие даалт" />
+    <attribute name="about" value="Цагийн хөлс, илүү цаг, суутгал, гарт олгох дүн" />
+    <attribute name="saved" value="2026-10-28 09:00:00 AM" />
+  </attributes>
+  <function name="Main" type="None" variable="">
+    <parameters />
+    <body>
+      <declare name="tsagiinHuls" type="Real" array="False" size="" />
+      <declare name="suutgaliinHuvi" type="Real" array="False" size="" />
+      <declare name="tsag" type="Real" array="False" size="" />
+      <declare name="niitTsag" type="Real" array="False" size="" />
+      <declare name="engiinTsag" type="Real" array="False" size="" />
+      <declare name="iluuTsag" type="Real" array="False" size="" />
+      <declare name="niitTsaling" type="Real" array="False" size="" />
+      <declare name="suutgal" type="Real" array="False" size="" />
+      <declare name="garDeer" type="Real" array="False" size="" />
+      <declare name="hamgiinTsag" type="Real" array="False" size="" />
+      <declare name="hamgiinOdor" type="Integer" array="False" size="" />
+      <declare name="odor" type="Integer" array="False" size="" />
+      <declare name="turul" type="String" array="False" size="" />
+      <call expression="ShowRules()" />
+      <assign variable="niitTsag" expression="0" />
+      <assign variable="hamgiinTsag" expression="0" />
+      <assign variable="hamgiinOdor" expression="1" />
+      <do expression="tsagiinHuls &lt; 1000 or tsagiinHuls &gt; 200000">
+        <output expression="&quot;Цагийн хөлс (1000-200000): &quot;" newline="False" />
+        <input variable="tsagiinHuls" />
+        <if expression="tsagiinHuls &lt; 1000 or tsagiinHuls &gt; 200000">
+          <then>
+            <output expression="&quot;Алдаа! 1000-200000 хооронд оруулна уу.&quot;" newline="True" />
+          </then>
+          <else />
+        </if>
+      </do>
+      <do expression="suutgaliinHuvi &lt; 0 or suutgaliinHuvi &gt; 50">
+        <output expression="&quot;Суутгалын хувь (0-50): &quot;" newline="False" />
+        <input variable="suutgaliinHuvi" />
+        <if expression="suutgaliinHuvi &lt; 0 or suutgaliinHuvi &gt; 50">
+          <then>
+            <output expression="&quot;Алдаа! 0-50 хооронд оруулна уу.&quot;" newline="True" />
+          </then>
+          <else />
+        </if>
+      </do>
+      <output expression="&quot;Odor | Turul | Tsag | Hulsh&quot;" newline="True" />
+      <for variable="odor" start="1" end="7" direction="inc" step="1">
+        <do expression="tsag &lt; 0 or tsag &gt; 16">
+          <output expression="&quot;Өдрийн цаг (0-16): &quot;" newline="False" />
+          <input variable="tsag" />
+          <if expression="tsag &lt; 0 or tsag &gt; 16">
+            <then>
+              <output expression="&quot;Алдаа! 0-16 хооронд оруулна уу.&quot;" newline="True" />
+            </then>
+            <else />
+          </if>
+        </do>
+        <assign variable="niitTsag" expression="niitTsag + tsag" />
+        <if expression="tsag &gt; hamgiinTsag">
+          <then>
+            <assign variable="hamgiinTsag" expression="tsag" />
+            <assign variable="hamgiinOdor" expression="odor" />
+          </then>
+          <else />
+        </if>
+        <if expression="tsag == 0">
+          <then>
+            <assign variable="turul" expression="&quot;Amralt&quot;" />
+          </then>
+          <else>
+            <if expression="tsag &gt; 0 and tsag &lt;= 8">
+              <then>
+                <assign variable="turul" expression="&quot;Engiin&quot;" />
+              </then>
+              <else>
+                <assign variable="turul" expression="&quot;Urt&quot;" />
+              </else>
+            </if>
+          </else>
+        </if>
+        <output expression="odor &amp; &quot; | &quot; &amp; turul &amp; &quot; | &quot; &amp; tsag &amp; &quot; | &quot; &amp; tsag * tsagiinHuls" newline="True" />
+      </for>
+      <if expression="niitTsag &gt; 40">
+        <then>
+          <assign variable="engiinTsag" expression="40" />
+          <assign variable="iluuTsag" expression="niitTsag - 40" />
+        </then>
+        <else>
+          <assign variable="engiinTsag" expression="niitTsag" />
+          <assign variable="iluuTsag" expression="0" />
+        </else>
+      </if>
+      <assign variable="niitTsaling" expression="engiinTsag * tsagiinHuls + iluuTsag * tsagiinHuls * 1.5" />
+      <assign variable="suutgal" expression="niitTsaling * suutgaliinHuvi / 100" />
+      <assign variable="garDeer" expression="niitTsaling - suutgal" />
+      <output expression="&quot;Нийт цаг: &quot; &amp; niitTsag" newline="True" />
+      <output expression="&quot;Энгийн цаг: &quot; &amp; engiinTsag &amp; &quot;, илүү цаг: &quot; &amp; iluuTsag" newline="True" />
+      <output expression="&quot;Нийт цалин: &quot; &amp; niitTsaling" newline="True" />
+      <output expression="&quot;Суутгал: &quot; &amp; suutgal" newline="True" />
+      <output expression="&quot;Гарт олгох дүн: &quot; &amp; garDeer" newline="True" />
+      <output expression="&quot;Хамгийн олон цагтай өдөр: &quot; &amp; hamgiinOdor &amp; &quot; (&quot; &amp; hamgiinTsag &amp; &quot; цаг)&quot;" newline="True" />
+    </body>
+  </function>
+  <function name="ShowRules" type="None" variable="">
+    <parameters />
+    <body>
+      <output expression="&quot;=== ДОЛОО ХОНОГИЙН ЦАЛИНГИЙН ТООЦОО ===&quot;" newline="True" />
+      <output expression="&quot;Дүрэм: 40 цагаас дээших цагийг 1.5 дахин бодно.&quot;" newline="True" />
+      <output expression="&quot;Нэг өдөр 0-16 цаг, суутгал 0-50 хувь байна.&quot;" newline="True" />
+    </body>
+  </function>
+</flowgorithm>
